@@ -15,7 +15,7 @@ model User {
   nationality            String
   placeOfRegistration    String   @map("place_of_registration")
   placeOfResidence       String   @map("place_of_residence")
-  passportId             String   @map("passport_id")
+  passportNumber         Int   @map("passport_number")
   personalNumber         Int      @map("personal_number")
   phoneNumber            Int      @map("phone_number")
   birthday               DateTime
