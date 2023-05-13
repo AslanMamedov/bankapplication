@@ -15,7 +15,7 @@ model User {
   nationality            String
   placeOfRegistration    String   @map("place_of_registration")
   placeOfResidence       String   @map("place_of_residence")
-  passportNumber         Int   @map("passport_number")
+  passportNumber         Int      @map("passport_number")
   personalNumber         Int      @map("personal_number")
   phoneNumber            Int      @map("phone_number")
   birthday               DateTime
@@ -27,13 +27,6 @@ model User {
   gender       Gender
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-}
-
-model Credit {
-  id String @id @unique() @default(uuid())
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model Guarantor {
@@ -54,14 +47,21 @@ model Guarantor {
   updatedAt              DateTime @updatedAt
 }
 
-model CreditCart {
+model BankCount {
   id String @id @unique() @default(uuid())
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model BankCount {
+model Credit {
+  id String @id @unique() @default(uuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CreditCart {
   id String @id @unique() @default(uuid())
 
   createdAt DateTime @default(now())

@@ -1,4 +1,5 @@
 'use client';
+import axios from 'axios';
 import { useSession, signIn, signOut } from 'next-auth/react';
 const Login = () => {
 	const { data: session, status, update } = useSession();
@@ -12,6 +13,7 @@ const Login = () => {
 	};
 
 	const updates = async () => {
+		// const datas = await axios.get('///');
 		const data = await update({
 			...session,
 			user: {
@@ -36,6 +38,7 @@ const Login = () => {
 			Not signed in <br />
 			{/* <button onClick={() => signIn()}>Sign in</button> */}
 			<button onClick={some}>Sign in</button>
+			{/* <button onClick={updates}>update</button> */}
 		</>
 	);
 };

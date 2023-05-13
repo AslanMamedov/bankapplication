@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import { headers, cookies } from 'next/headers';
 import bcrypt from 'bcrypt';
+
 export async function POST(request: NextRequest, response: NextResponse) {
 	const token = jwt.sign(
 		{
@@ -11,7 +12,9 @@ export async function POST(request: NextRequest, response: NextResponse) {
 			},
 		},
 		'secret',
-		{ expiresIn: 60 * 1 }
+		{
+			expiresIn: 60 * 1,
+		}
 	);
 
 	return new NextResponse(JSON.stringify(token), { status: 202 });

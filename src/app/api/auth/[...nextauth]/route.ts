@@ -1,7 +1,7 @@
 import NextAuth, { NextAuthOptions, RequestInternal } from 'next-auth';
 import bcrypt from 'bcrypt';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
+
 import prisma from '@/libs/prisma';
 import GoogleProvider from 'next-auth/providers/google';
 export const authOptions: NextAuthOptions = {
@@ -11,6 +11,7 @@ export const authOptions: NextAuthOptions = {
 			credentials: {},
 			type: 'credentials',
 			async authorize(credentials) {
+				console.log(credentials);
 				if (credentials) {
 					return { ...credentials, id: '1' };
 				} else {
@@ -36,6 +37,13 @@ export const authOptions: NextAuthOptions = {
 		},
 		signIn({ account, user, credentials, email, profile }) {
 			return true;
+		},
+	},
+	events: {
+		session({ session, token }) {},
+		signIn({ account, user, isNewUser, profile }) {},
+		createUser({ user }) {
+			console.log(user);
 		},
 	},
 };
