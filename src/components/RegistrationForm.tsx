@@ -4,7 +4,6 @@ import { useRegistrationMutation } from '@/redux/registrationApi';
 import {
 	Box,
 	Button,
-	Checkbox,
 	FormControl,
 	FormControlLabel,
 	FormLabel,
@@ -12,35 +11,37 @@ import {
 	RadioGroup,
 	TextField,
 } from '@mui/material';
-import { Controller, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 enum Gender {
 	MALE,
 	FEMALE,
 }
-import { useState } from 'react';
-import InputField from './InputField';
-import { onParseHandler } from '@/libs/parseDate';
-import { onFormatHandler } from '@/libs/formatDate';
 
-interface Registration {
-	name: string;
-	familyName: string;
-	surname: string;
-	birthday: Date;
-	gender: Gender;
-}
+import { User } from '@prisma/client';
+import { signIn, useSession } from 'next-auth/react';
+import { sign } from 'crypto';
+
+type Registration = User & {};
 export const RegistrationForm = () => {
-	const [regisration, result] = useRegistrationMutation();
+	const { data: session, status, update } = useSession();
+	const [regisration, { data }] = useRegistrationMutation();
 
 	const { control, handleSubmit } = useForm<Registration>();
 
 	const onSubmit: SubmitHandler<Registration> = async (data) => {
-		console.log({ ...data, birthday: new Date(data.birthday).toString() });
+		console.log({ ...data, birthday: new Date(data.birthday).toISOString() });
 
-		await regisration({ ...data, birthday: new Date(data.birthday).toString() });
+		await regisration({ ...data, birthday: new Date(data.birthday).toISOString() });
+
+		const user = await signIn('credentials', {
+			phoneNumber: data.phoneNumber,
+			redirect: false,
+		});
 	};
-
+	const dateOnChange = (e: any) => {
+		console.log(e);
+	};
 	return (
 		<Box
 			action=""
@@ -71,6 +72,21 @@ export const RegistrationForm = () => {
 				control={control}
 				render={({ field }) => <TextField {...field} label="Отчество" variant="outlined" />}
 			/>
+			<Controller
+				name="nationality"
+				control={control}
+				render={({ field }) => <TextField {...field} label="Гражданство" variant="outlined" />}
+			/>
+			<Controller
+				name="placeOfRegistration"
+				control={control}
+				render={({ field }) => <TextField {...field} label="Место регистрации" variant="outlined" />}
+			/>
+			<Controller
+				name="placeOfResidence"
+				control={control}
+				render={({ field }) => <TextField {...field} label="Место проживания" variant="outlined" />}
+			/>
 
 			<Controller
 				name="birthday"
@@ -91,11 +107,6 @@ export const RegistrationForm = () => {
 					)}
 				/>
 			</FormControl>
-			<Controller
-				name="birthday"
-				control={control}
-				render={({ field }) => <TextField {...field} variant="outlined" type="date" />}
-			/>
 
 			<Button variant="contained" type="submit">
 				Зарегистрироваться

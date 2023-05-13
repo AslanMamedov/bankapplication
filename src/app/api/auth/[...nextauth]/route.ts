@@ -1,9 +1,9 @@
-import NextAuth, { NextAuthOptions, RequestInternal } from 'next-auth';
-import bcrypt from 'bcrypt';
+import NextAuth, { NextAuthOptions, } from 'next-auth';
+
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 import prisma from '@/libs/prisma';
-import GoogleProvider from 'next-auth/providers/google';
+
 export const authOptions: NextAuthOptions = {
 	providers: [
 		CredentialsProvider({
@@ -11,8 +11,12 @@ export const authOptions: NextAuthOptions = {
 			credentials: {},
 			type: 'credentials',
 			async authorize(credentials) {
-				console.log(credentials);
 				if (credentials) {
+					const user = await prisma.user.findUnique({
+						where: {
+							phoneNumber: credentials.phoneNumber,
+						},
+					});
 					return { ...credentials, id: '1' };
 				} else {
 					return null;

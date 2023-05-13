@@ -8,25 +8,27 @@ datasource db {
 }
 
 model User {
-  id                     String   @id @unique() @default(uuid())
+  id                     String       @id @unique() @default(uuid())
   name                   String
-  familyName             String   @map("family_name")
+  familyName             String       @map("family_name")
   surname                String
   nationality            String
-  placeOfRegistration    String   @map("place_of_registration")
-  placeOfResidence       String   @map("place_of_residence")
-  passportNumber         Int      @map("passport_number")
-  personalNumber         Int      @map("personal_number")
-  phoneNumber            Int      @map("phone_number")
+  placeOfRegistration    String       @map("place_of_registration")
+  placeOfResidence       String       @map("place_of_residence")
+  passportNumber         Int          @map("passport_number")
+  personalNumber         Int          @map("personal_number")
+  phoneNumber            String       @unique() @map("phone_number")
   birthday               DateTime
-  passportExpirationDate DateTime @map("passport_expiration_date")
-
-  accessToken  String   @map("access_token")
-  refreshToken String   @map("refresh_token")
-  password     String
-  gender       Gender
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  passportExpirationDate DateTime     @map("passport_expiration_date")
+  accessToken            String       @map("access_token")
+  refreshToken           String       @map("refresh_token")
+  password               String
+  gender                 Gender
+  createdAt              DateTime     @default(now())
+  updatedAt              DateTime     @updatedAt
+  BankCount              BankCount[]
+  CreditCart             CreditCart[]
+  Credit                 Credit[]
 }
 
 model Guarantor {
@@ -48,24 +50,52 @@ model Guarantor {
 }
 
 model BankCount {
-  id String @id @unique() @default(uuid())
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              String     @id @unique() @default(uuid())
+  bankCountNumber String     @map("bank_count_number")
+  account         Int
+  expiryDate      DateTime   @map("expiry_date")
+  user            User       @relation(fields: [userId], references: [id])
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  userId          String
+  creditCart      CreditCart @relation(fields: [creditCartId], references: [id])
+  creditCartId    String     @unique
 }
 
 model Credit {
-  id String @id @unique() @default(uuid())
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id               String   @id @unique() @default(uuid())
+  sum              Int
+  dueDate          Int      @map("due_date")
+  interestRate     Float    @map("interest_rate")
+  monthlyIncome    Int      @map("monthly_income")
+  fieldOfActivity  String   @map("field_of_activity")
+  experience       Int
+  reasonForTheLoan String   @map("reason_for_the_loan")
+  currency         Currency
+  region           String
+  user             User     @relation(fields: [userId], references: [id])
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  userId           String
 }
 
 model CreditCart {
-  id String @id @unique() @default(uuid())
+  id               String     @id @unique() @default(uuid())
+  creditCardNumber String     @map("credit_card_number")
+  cvvCod           Int        @map("cvv_cod")
+  expiryDate       DateTime
+  user             User       @relation(fields: [userId], references: [id])
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+  userId           String
+  BankCount        BankCount?
+}
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+enum Currency {
+  AZE
+  USD
+  EU
+  RUB
 }
 
 enum Gender {
