@@ -1,24 +1,14 @@
-import { Counter } from '@/components/Counter';
-import Login from '@/components/Login';
-import { RegistrationForm } from '@/components/RegistrationForm';
-import { setData } from '@/redux/someData/someDataSlice';
-import { store } from '@/redux/store';
-import Link from 'next/link';
+import { Inter } from 'next/font/google';
+const inter = Inter({ subsets: ['latin'] });
+import clsx from 'clsx';
 
-export default async function HomePage() {
-	// const response = await fetch('https://jsonplaceholder.typicode.com/posts');
-	// const data = await response.json();
-
-	// store.dispatch(setData(data));
+import { Header } from '@/components/Header';
+export default function HomePage() {
 	return (
-		<main>
-			{/* <h1>Bank app</h1>
-			<Counter />
-			<Link href={'/user'}>user -Page</Link>
-			<br />
-			<br />
-			<Login /> */}
-			<RegistrationForm />
+		<main className={clsx(inter.className, 'main')}>
+			{/* <AppBarLayout /> */}
+
+			<Header />
 		</main>
 	);
 }

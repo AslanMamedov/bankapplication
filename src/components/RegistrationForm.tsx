@@ -1,16 +1,7 @@
 'use client';
 
 import { useRegistrationMutation } from '@/redux/registrationApi';
-import {
-	Box,
-	Button,
-	FormControl,
-	FormControlLabel,
-	FormLabel,
-	Radio,
-	RadioGroup,
-	TextField,
-} from '@mui/material';
+import { Box, Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField } from '@mui/material';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 enum Gender {

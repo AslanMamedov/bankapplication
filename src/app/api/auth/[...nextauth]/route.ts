@@ -1,4 +1,4 @@
-import NextAuth, { NextAuthOptions, } from 'next-auth';
+import NextAuth, { NextAuthOptions } from 'next-auth';
 
 import CredentialsProvider from 'next-auth/providers/credentials';
 
@@ -34,6 +34,7 @@ export const authOptions: NextAuthOptions = {
 		},
 		session({ newSession, session, token, trigger, user }) {
 			session.user = token;
+
 			return session;
 		},
 		redirect({ baseUrl, url }) {
