@@ -1,7 +1,7 @@
 import { Box, Container, Typography } from '@mui/material';
 import React from 'react';
 import { Popover } from './Popover';
-import  SliderCarousel  from './SliderCarousel';
+import SliderCarousel from './SliderCarousel';
 
 export const BusinessTab = () => {
 	return (
@@ -138,12 +138,40 @@ export const BusinessTab = () => {
 				<SliderCarousel
 					sliderLists={[
 						{
-							imgsrc: '',
-							bgcolor: '',
+							imgsrc: './6.png',
+							bgcolor: '#255ec3',
 							link: '',
 							subTitle: '',
 							title: '',
 						},
+						{
+							imgsrc: './3.png',
+							bgcolor: '#003b87',
+							link: '',
+							subTitle: '',
+							title: '',
+						},
+						// {
+						// 	imgsrc: './8.png',
+						// 	bgcolor: '#2c2572',
+						// 	link: '',
+						// 	subTitle: '',
+						// 	title: '',
+						// },
+						// {
+						// 	imgsrc: './7.png',
+						// 	bgcolor: '#3e74d8',
+						// 	link: '',
+						// 	subTitle: '',
+						// 	title: '',
+						// },
+						// {
+						// 	imgsrc: './9.png',
+						// 	bgcolor: '#5615af ',
+						// 	link: '',
+						// 	subTitle: '',
+						// 	title: '',
+						// },
 					]}
 				/>
 			</Box>

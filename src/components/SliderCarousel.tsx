@@ -1,9 +1,9 @@
 'use client';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import Slider, { Settings } from 'react-slick';
+import Slider from 'react-slick';
 import { Box, Container } from '@mui/material';
-import { FC, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { FC, MouseEventHandler, memo, useEffect, useRef, useState } from 'react';
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 
 type TSliderItem = {
@@ -22,7 +22,7 @@ const SliderCarousel: FC<ISliderCarouselProps> = ({ sliderLists = [] }) => {
 	const sliderRef = useRef<Slider | undefined | any>(undefined);
 	const [progress, setProgress] = useState<number>(0);
 	const [activeSlide, setActiveSlide] = useState<number>(0);
-
+	const [hover, setHover] = useState<boolean>(false);
 	const clickSlideHandler = (index: number) => {
 		sliderRef?.current.slickGoTo(index);
 	};
@@ -44,10 +44,20 @@ const SliderCarousel: FC<ISliderCarouselProps> = ({ sliderLists = [] }) => {
 		setActiveSlide(currentSlide);
 	};
 
+	const onMouseEnterHandler: MouseEventHandler<HTMLDivElement> = (e) => {
+		setHover(true);
+	};
+	const onMouseLeaveHandler: MouseEventHandler<HTMLDivElement> = (e) => {
+		setHover(false);
+	};
+
 	useEffect(() => {
+		if (hover) {
+			return;
+		}
 		const id = setInterval(() => {
 			setProgress((prevProgress) => {
-				if (+prevProgress.toFixed(0) >= 100) {
+				if (+prevProgress.toFixed(0) === 100) {
 					clearInterval(id);
 					return 100;
 				}
@@ -58,20 +68,27 @@ const SliderCarousel: FC<ISliderCarouselProps> = ({ sliderLists = [] }) => {
 		return () => {
 			clearInterval(id);
 		};
-	}, [activeSlide]);
+	}, [activeSlide, hover]);
 
 	useEffect(() => {
+		if (hover) {
+			return;
+		}
 		const id = setInterval(() => {
-			if (+progress.toFixed(0) >= 100) {
+			if (+progress.toFixed(0) !== 100) {
+				clearInterval(id);
+			} else {
 				sliderRef?.current?.slickNext();
 			}
 		}, 100);
 		return () => {
 			clearInterval(id);
 		};
-	}, [progress]);
+	}, [progress, hover]);
 	return (
 		<Box
+			onMouseEnter={onMouseEnterHandler}
+			onMouseLeave={onMouseLeaveHandler}
 			component={'div'}
 			sx={{
 				position: 'relative',
