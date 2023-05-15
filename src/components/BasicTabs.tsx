@@ -46,7 +46,9 @@ export const BasicTabs = () => {
 	};
 
 	return (
-		<Box className={'header__bottom'}>
+		<Box className={'header__bottom'} sx={{
+			
+		}}>
 			<Container maxWidth="lg" sx={{ width: '100%', px: '40px' }}>
 				<Box
 					sx={{

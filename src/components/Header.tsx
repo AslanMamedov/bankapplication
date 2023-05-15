@@ -10,7 +10,7 @@ import clsx from 'clsx';
 export const Header = () => {
 	return (
 		<>
-			<Container maxWidth="lg" className='header__top'>
+			<Container maxWidth="lg" className="header__top">
 				<Box
 					component={'header'}
 					className="header"
@@ -24,11 +24,7 @@ export const Header = () => {
 					}}
 				>
 					<Box className="logo">
-						<Box
-							component={'img'}
-							src="https://www.bankrespublika.az/site/views/site/images/logo1.svg"
-							alt="Bank_Logo"
-						/>
+						<Box component={'img'} src="./logo.svg" alt="Bank_Logo" />
 					</Box>
 					<Box className="navigation" sx={{ display: 'flex', alignItems: 'center' }}>
 						<Box

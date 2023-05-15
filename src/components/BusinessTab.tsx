@@ -1,12 +1,17 @@
 import { Box, Container, Typography } from '@mui/material';
 import React from 'react';
 import { Popover } from './Popover';
-import { SliderCarousel } from './SliderCarousel';
+import  SliderCarousel  from './SliderCarousel';
 
 export const BusinessTab = () => {
 	return (
 		<Box>
-			<Container maxWidth="lg">
+			<Container
+				maxWidth="lg"
+				sx={{
+					zIndex: '1111111111111',
+				}}
+			>
 				<Box
 					sx={{
 						width: '100%',
@@ -125,9 +130,22 @@ export const BusinessTab = () => {
 					width: '100%',
 					px: 0,
 					height: '540px',
+					mt: '20px',
+					position: 'relative',
+					zIndex: '11',
 				}}
 			>
-				<SliderCarousel />
+				<SliderCarousel
+					sliderLists={[
+						{
+							imgsrc: '',
+							bgcolor: '',
+							link: '',
+							subTitle: '',
+							title: '',
+						},
+					]}
+				/>
 			</Box>
 		</Box>
 	);

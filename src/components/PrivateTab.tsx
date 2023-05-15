@@ -1,16 +1,22 @@
 import React from 'react';
 import { Popover } from './Popover';
 import { Box, Container, Typography } from '@mui/material';
-import { SliderCarousel } from './SliderCarousel';
+import SliderCarousel from './SliderCarousel';
 
 export const PrivateTab = () => {
 	return (
 		<Box component={'div'}>
-			<Container maxWidth="lg">
+			<Container
+				maxWidth="lg"
+				sx={{
+					zIndex: '1111111111111',
+				}}
+			>
 				<Box
 					sx={{
 						width: '100%',
 						display: 'flex',
+
 						px: '0',
 						mt: '25px',
 						'& > div:not(:last-child)': {
@@ -156,9 +162,57 @@ export const PrivateTab = () => {
 					width: '100%',
 					px: 0,
 					height: '540px',
+					mt: '20px',
+					position: 'relative',
+					zIndex: '11',
 				}}
 			>
-				<SliderCarousel />
+				<SliderCarousel
+					sliderLists={[
+						{
+							imgsrc: './1.png',
+							bgcolor: '#36016c',
+							link: '',
+							subTitle: '',
+							title: '',
+						},
+						{
+							imgsrc: './3.png',
+							bgcolor: '#003b87',
+							link: '',
+							subTitle: '',
+							title: '',
+						},
+						{
+							imgsrc: './2.png',
+							bgcolor: '#391770',
+							link: '',
+							subTitle: '',
+							title: '',
+						},
+						{
+							imgsrc: './1.png',
+							bgcolor: '#36016c',
+							link: '',
+							subTitle: '',
+							title: '',
+						},
+						{
+							imgsrc: './5.png',
+							bgcolor: '#04010a',
+							link: '',
+							subTitle: '',
+							title: '',
+						},
+						{
+							imgsrc: './6.png',
+							bgcolor: '#255ec3',
+							link: '',
+							subTitle: '',
+							title: '',
+						},
+					]}
+				/>
 			</Box>
 		</Box>
 	);
