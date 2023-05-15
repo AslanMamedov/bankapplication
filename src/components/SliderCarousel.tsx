@@ -19,23 +19,13 @@ interface ISliderCarouselProps {
 }
 
 const SliderCarousel: FC<ISliderCarouselProps> = ({ sliderLists = [] }) => {
+	const sliderRef = useRef<Slider | undefined | any>(undefined);
 	const [progress, setProgress] = useState<number>(0);
 	const [activeSlide, setActiveSlide] = useState<number>(0);
-	const sliderRef = useRef<Slider | undefined | any>(undefined);
-	const settings: Settings = useMemo(() => {
-		return {
-			dots: false,
-			infinite: true,
-			speed: 500,
-			slidesToShow: 1,
-			slidesToScroll: 1,
-			arrows: false,
-			centerMode: false,
-			autoplay: false,
-		};
-	}, []);
 
-	const clickSlideHandler = (index: number) => sliderRef?.current.slickGoTo(index);
+	const clickSlideHandler = (index: number) => {
+		sliderRef?.current.slickGoTo(index);
+	};
 
 	const prevArrowHandler = () => {
 		sliderRef?.current?.slickPrev();
@@ -43,33 +33,43 @@ const SliderCarousel: FC<ISliderCarouselProps> = ({ sliderLists = [] }) => {
 	const nextArrowHandler = () => {
 		sliderRef?.current?.slickNext();
 	};
-	const handleBeforeChange = (currentSlide: number, nextSlide: number) => {
-		setActiveSlide(nextSlide);
-		setProgress(0);
-	};
 
-	const handleAfterChange = (currentSlide: number) => {
-		if (currentSlide === sliderLists.length) {
-			setActiveSlide(0);
+	const handleBeforeChange = (currentSlide: number, nextSlide: number) => {
+		if (currentSlide !== activeSlide) {
+			setProgress(0);
 		}
 	};
+	const handleAfterChange = (currentSlide: number) => {
+		setProgress(0);
+		setActiveSlide(currentSlide);
+	};
 
 	useEffect(() => {
 		const id = setInterval(() => {
-			sliderRef?.current?.slickNext();
-		}, 4000);
+			setProgress((prevProgress) => {
+				if (+prevProgress.toFixed(0) >= 100) {
+					clearInterval(id);
+					return 100;
+				}
+				return prevProgress + 0.1;
+			});
+		}, 1);
 
-		return () => clearInterval(id);
-	}, []);
+		return () => {
+			clearInterval(id);
+		};
+	}, [activeSlide]);
 
 	useEffect(() => {
 		const id = setInterval(() => {
-			setProgress((prevProgress) => (prevProgress === 100 ? 0 : prevProgress + 0.1));
-		}, 4000 / 1000);
-
-		return () => clearInterval(id);
-	}, []);
-
+			if (+progress.toFixed(0) >= 100) {
+				sliderRef?.current?.slickNext();
+			}
+		}, 100);
+		return () => {
+			clearInterval(id);
+		};
+	}, [progress]);
 	return (
 		<Box
 			component={'div'}
@@ -186,7 +186,21 @@ const SliderCarousel: FC<ISliderCarouselProps> = ({ sliderLists = [] }) => {
 					/>
 				</Box>
 			</Container>
-			<Slider {...settings} ref={sliderRef} beforeChange={handleBeforeChange} afterChange={handleAfterChange}>
+			<Slider
+				{...{
+					dots: false,
+					infinite: true,
+					speed: 500,
+					slidesToShow: 1,
+					slidesToScroll: 1,
+					arrows: false,
+					centerMode: false,
+					autoplay: false,
+				}}
+				ref={sliderRef}
+				beforeChange={handleBeforeChange}
+				afterChange={handleAfterChange}
+			>
 				{!!sliderLists.length &&
 					sliderLists.map(({ imgsrc, bgcolor, link, subTitle, title }, index) => (
 						<Box
