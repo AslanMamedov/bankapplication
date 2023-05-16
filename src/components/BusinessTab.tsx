@@ -97,8 +97,8 @@ export const BusinessTab = () => {
 						title={'Документарные операции услуги'}
 						links={[
 							{
-								href: 'Гарантия',
-								text: '',
+								href: '#',
+								text: 'Гарантия',
 							},
 							{
 								href: '',

@@ -80,7 +80,12 @@ export const Search = () => {
 					>
 						Bank Respublika
 					</Typography>
-					<CloseIcon onClick={toggleDrawer(anchor, false)} />
+					<CloseIcon
+						onClick={toggleDrawer(anchor, false)}
+						sx={{
+							cursor: 'pointer',
+						}}
+					/>
 				</Box>
 				<Box
 					sx={{
@@ -202,7 +207,6 @@ export const Search = () => {
 								flex: 1,
 							}}
 						>
-							{' '}
 							<Box
 								component={'ul'}
 								sx={{
@@ -254,7 +258,6 @@ export const Search = () => {
 								flex: 1,
 							}}
 						>
-							{' '}
 							<Box
 								component={'ul'}
 								sx={{
@@ -306,7 +309,6 @@ export const Search = () => {
 								flex: 1,
 							}}
 						>
-							{' '}
 							<Box
 								component={'ul'}
 								sx={{

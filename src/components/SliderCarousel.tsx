@@ -3,7 +3,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import { Box, Container } from '@mui/material';
-import { FC, MouseEventHandler, memo, useEffect, useRef, useState } from 'react';
+import { FC, memo, useEffect, useRef, useState } from 'react';
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 
 type TSliderItem = {
@@ -23,32 +23,15 @@ const SliderCarousel: FC<ISliderCarouselProps> = ({ sliderLists = [] }) => {
 	const [progress, setProgress] = useState<number>(0);
 	const [activeSlide, setActiveSlide] = useState<number>(0);
 	const [hover, setHover] = useState<boolean>(false);
-	const clickSlideHandler = (index: number) => {
-		sliderRef?.current.slickGoTo(index);
-	};
 
-	const prevArrowHandler = () => {
-		sliderRef?.current?.slickPrev();
-	};
-	const nextArrowHandler = () => {
-		sliderRef?.current?.slickNext();
-	};
-
-	const handleBeforeChange = (currentSlide: number, nextSlide: number) => {
+	const handleBeforeChange = (currentSlide: number) => {
 		if (currentSlide !== activeSlide) {
 			setProgress(0);
 		}
 	};
 	const handleAfterChange = (currentSlide: number) => {
-		setProgress(0);
 		setActiveSlide(currentSlide);
-	};
-
-	const onMouseEnterHandler: MouseEventHandler<HTMLDivElement> = (e) => {
-		setHover(true);
-	};
-	const onMouseLeaveHandler: MouseEventHandler<HTMLDivElement> = (e) => {
-		setHover(false);
+		setProgress(0);
 	};
 
 	useEffect(() => {
@@ -87,8 +70,8 @@ const SliderCarousel: FC<ISliderCarouselProps> = ({ sliderLists = [] }) => {
 	}, [progress, hover]);
 	return (
 		<Box
-			onMouseEnter={onMouseEnterHandler}
-			onMouseLeave={onMouseLeaveHandler}
+			onMouseEnter={() => setHover(true)}
+			onMouseLeave={() => setHover(false)}
 			component={'div'}
 			sx={{
 				position: 'relative',
@@ -122,7 +105,7 @@ const SliderCarousel: FC<ISliderCarouselProps> = ({ sliderLists = [] }) => {
 					{!!sliderLists.length &&
 						sliderLists.map((_, index) => (
 							<Box
-								onClick={() => clickSlideHandler(index)}
+								onClick={() => sliderRef?.current.slickGoTo(index)}
 								key={index}
 								component={'div'}
 								sx={{
@@ -173,7 +156,7 @@ const SliderCarousel: FC<ISliderCarouselProps> = ({ sliderLists = [] }) => {
 						zIndex: '11111',
 						transform: 'translateY(-50%)',
 					}}
-					onClick={prevArrowHandler}
+					onClick={() => sliderRef?.current?.slickPrev()}
 				>
 					<ArrowBackIosRoundedIcon
 						sx={{
@@ -193,7 +176,7 @@ const SliderCarousel: FC<ISliderCarouselProps> = ({ sliderLists = [] }) => {
 						zIndex: '11111',
 						transform: 'translateY(50%)',
 					}}
-					onClick={nextArrowHandler}
+					onClick={() => sliderRef?.current?.slickNext()}
 				>
 					<ArrowBackIosRoundedIcon
 						sx={{
